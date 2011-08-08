@@ -1,0 +1,181 @@
+<script id = "cc" type="text/paperscript" canvas="canvas">
+  
+    var lineColor = "red";
+    
+    var lineWidth = 800;
+    var lineHeight = 16;
+    
+    var startX = 0;
+    var startY = lineHeight/2;
+    
+    var segmentLenght = 40;
+    var segmentShaking = 2;
+    var shakingNumber = 4;
+    var size = 20;
+    var lineWeight = 2;    
+    
+    var line;
+    var magicRect;
+
+    function randomFromTo()
+    {
+        
+      var from = 0;
+      var to = segmentShaking;
+      
+      randomNum =  Math.floor(Math.random() * (to - from + 1) + from);
+      
+      if(randomNum < (shakingNumber / 2))
+          randomNum *= -1;
+          
+      return randomNum;
+    }
+    
+    function getRectangle()
+    {
+        
+      magicRect = new Path.Rectangle(0, 0, lineWidth, lineHeight);
+      
+      magicRect.strokeColor = 'white';
+      magicRect.fillColor = 'white';
+    }
+    
+    function draw()
+    {
+    
+      line = new Path();
+      line.strokeColor = lineColor;
+      line.fillColor = lineColor;
+      
+      var startPoint = new Point(startX, startY);
+      
+      var prevPoint = new Point(startX, startY);
+      line.add(prevPoint);
+      for(var i = 0; i < size; i++)
+      {
+          
+          var currentPoint = new Point(prevPoint.x + segmentLenght, startPoint.y + randomFromTo());
+          line.add(currentPoint);
+          
+          prevPoint = currentPoint;
+      }
+      
+      for(var i = size - 3; i >= 1; i--)
+      {  
+          
+          line.add(new Point(line.segments[i].point.x, line.segments[i].point.y + lineWeight));
+      }
+      
+      line.closed = true;
+      
+      line.smooth();
+      
+      getRectangle();
+    }
+  
+    function onFrame(event) {
+    
+      if(starting == true)
+      {
+      
+        console.log("on enter ololo: " + starting);
+        
+        magicRect.position.x = 0;
+        starting = false;
+      }
+      else
+      {
+        if(magicRect.position.x < lineWidth)
+          magicRect.position.x += 20;
+          console.log("X: " + magicRect.position.x);
+      }
+    }
+  
+  draw();
+
+</script>
+
+<script type = "text/javascript">
+  
+  var starting = false;
+  
+  $(document).ready(function(){
+
+      console.log($(".item_container").html());
+
+      $(".stroke_text").click(function(){
+          
+          var position = $(this).position();
+          var height = $(this).height();
+          
+          var topStr = position.top + height;
+          topStr += "px";
+          
+          $("#canvas").css("top", topStr);
+          $("#canvas").css("left", position.left + "px");
+
+          console.log(position);
+          
+          starting = true;
+        });
+      
+    });
+
+</script>
+  
+<div class = "item_container">
+  
+  <div class = "item_title">
+    <%= @item[:title] %>
+  </div>
+  <div class = "item_rating">
+    <%= @item[:rating]%>
+  </div>
+  <!--div style="float: left">user created:&nbsp</div><div><a href = "/user/detail/ID=<%= @item[:creatorID]%>"><%= @item[:creatorID]%></a></div-->
+</div>
+
+<%positionCtr = 1%>
+<%@strokes.each do |stroke_pos|%>
+
+  <div class = "stroke_container">
+    
+    <div class = "stroke_position">
+      <%=positionCtr%>:
+    </div>
+    <div class = "stroke_text">
+      <%=stroke_pos[0]["text"]%>
+    </div>
+    <div class = "stroke_rating">
+      <%=stroke_pos[0]["rating"]%>
+    </div>
+    
+    <br/>
+
+    <%if stroke_pos.size > 1%>
+  
+      <%for i in 1..stroke_pos.size - 1%>
+        
+        <div class = "inner_stroke_container">
+          
+          <div class = "stroke_text">
+            <%=stroke_pos[i]["text"]%>
+          </div>
+          <div class = "stroke_rating">
+            <%=stroke_pos[i]["rating"]%>
+          </div>
+          <br/>
+        </div>
+      
+      <%end%>
+  
+    <%end%>
+  
+    <%positionCtr = positionCtr + 1%>
+    
+    <!--br/-->
+  
+  </div>
+
+<%end%>
+
+<canvas id="canvas" width = 800 height = 16 align = left style = "text-align: left; position: relative"></canvas>

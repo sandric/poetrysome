@@ -1,0 +1,81 @@
+  @font-face
+  {
+  
+    font-family: "Itt";
+    src: url('../fonts/42936.ttf') format("truetype"); 
+  }
+  
+  .underline
+  {
+    
+    width: 240px;
+    height: 8px;
+    
+    background-image: url('../images/underline.jpg');
+    background-size: cover;
+  }
+  
+  .stroke_position
+  {
+    
+    float: left !important;
+  }
+
+  .stroke_text
+  {
+    
+    float: left;    
+    //font-family: 'Itt';
+    font-size: 20px !important;
+    
+    margin-left: 10px;
+  }
+  
+  .stroke_rating
+  {
+    
+    float: left;
+    margin-left: 10px;
+  }
+  
+    
+  .stroke_container
+  {
+    
+    padding: 3px;
+    float: none !important;
+  }
+  
+  .inner_stroke_container
+  {
+    
+    float: none;
+    margin-left: 50px;
+  }
+  
+  .item_title
+  {
+    
+    float: left;    
+    font-family: 'Itt';
+    font-size: 50px !important;
+  }
+  
+  .item_rating
+  {
+    
+    float: left;
+    margin-left: 10px;
+  }
+  
+  .item_container
+  {
+    
+    padding: 3px;
+    float: none !important;
+    
+    //border: 1px solid black;
+    
+    width: 100%;
+    height: 50px;
+  }

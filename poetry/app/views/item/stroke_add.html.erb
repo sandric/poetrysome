@@ -1,0 +1,14 @@
+<h1>Item#stroke_add</h1>
+<p>Find me in app/views/item/stroke_add.html.erb</p>
+
+<br/>
+
+<form method = "GET" action = "/item/stroke_append">
+  
+  Enter the new stroke:<input type = "text" name = "text"></input>
+  <br/>
+  <input type = "submit" value = "send"></input>
+  <input type = "text" name = "position" value = "<%=@position%>" style = "display: none"></input>
+  <input type = "text" name = "itemID" value = "<%=@itemID%>" style = "display: none"></input>
+  
+</form>
